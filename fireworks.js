@@ -42,20 +42,21 @@ Firework.prototype.update = function() {
 	if (this.x < 0 || this.x > 640 || this.y < 0 || this.y > 480 || this.duration < 1) {
 		if (this.duration < 1) {
 			if (this.y < 220) {
-				flowers.push(new VerticalFlower(this.x, this.y, get_random_RGB(),getRandomInt(10,15)));			
+			    flowers.push(new VerticalFlower(this.x, this.y, this.x_delta, get_random_RGB(),getRandomInt(10,15)));			
 			} else {
-				flowers.push(new Flower(this.x, this.y, get_random_RGB(),getRandomInt(10,25)));
+			    flowers.push(new Flower(this.x, this.y, this.x_delta, get_random_RGB(),getRandomInt(10,25)));
 			}
 		}
 		this.dirty = true;
 	}
 }
 
-function Flower(x, y, color, duration) {
-	this.x = x;
-	this.y = y;
-	this.color = color;
-	this.duration = duration;
+function Flower(x, y, dx, color, duration) {
+    this.x = x;
+    this.y = y;
+    this.delta_x = dx;
+    this.color = color;
+    this.duration = duration;
 }
 
 Flower.prototype.draw = function(ctx) {
@@ -73,17 +74,19 @@ Flower.prototype.draw = function(ctx) {
 
 Flower.prototype.update = function() {
 
-	this.duration--;
-	this.y = this.y + Math.round((10 - this.duration)/2);
+    this.duration--;
+    this.y = this.y + Math.round((10 - this.duration)/2);
+    this.x = this.x - this.delta_x;
 
 }
 
-function VerticalFlower(x, y, color, duration) {
-	this.x = x;
-	this.y = y;
-	this.color = color;
-	this.duration = duration;
-	this.initial_duration = duration;
+function VerticalFlower(x, y, dx, color, duration) {
+    this.x = x;
+    this.y = y;
+    this.delta_x = dx;
+    this.color = color;
+    this.duration = duration;
+    this.initial_duration = duration;
 }
 
 VerticalFlower.prototype = new Flower;
@@ -104,14 +107,15 @@ VerticalFlower.prototype.draw = function(ctx) {
 
 VerticalFlower.prototype.update = function() {
 
-	this.duration--;
-	this.y = this.y + Math.round((this.initial_duration - this.duration )/ 2);
-	
-	if (this.duration < 1) {
-		flowers.push(new Flower(flower.x - 40, flower.y + getRandomInt(20,40), get_random_RGB(),getRandomInt(5,15)));
-		flowers.push(new Flower(flower.x, flower.y, get_random_RGB(),getRandomInt(5,15)));
-		flowers.push(new Flower(flower.x + 40, flower.y + getRandomInt(20,40), get_random_RGB(),getRandomInt(5,15)));
-	}
+    this.duration--;
+    this.y = this.y + Math.round((this.initial_duration - this.duration )/ 2);
+    this.x = this.x - this.delta_x;
+
+    if (this.duration < 1) {
+	flowers.push(new Flower(flower.x - 40, flower.y + getRandomInt(20,40), get_random_RGB(),getRandomInt(5,15)));
+	flowers.push(new Flower(flower.x, flower.y, get_random_RGB(),getRandomInt(5,15)));
+	flowers.push(new Flower(flower.x + 40, flower.y + getRandomInt(20,40), get_random_RGB(),getRandomInt(5,15)));
+    }
 
 }
 
