@@ -112,9 +112,9 @@ VerticalFlower.prototype.update = function() {
     this.x = this.x - this.delta_x;
 
     if (this.duration < 1) {
-	flowers.push(new Flower(flower.x - 40, flower.y + getRandomInt(20,40), get_random_RGB(),getRandomInt(5,15)));
-	flowers.push(new Flower(flower.x, flower.y, get_random_RGB(),getRandomInt(5,15)));
-	flowers.push(new Flower(flower.x + 40, flower.y + getRandomInt(20,40), get_random_RGB(),getRandomInt(5,15)));
+	flowers.push(new Flower(flower.x - 40, flower.y + getRandomInt(20,40), this.delta_x, get_random_RGB(),getRandomInt(5,15)));
+	flowers.push(new Flower(flower.x, flower.y, this.delta_x, get_random_RGB(),getRandomInt(5,15)));
+	flowers.push(new Flower(flower.x + 40, flower.y + getRandomInt(20,40), this.delta_x, get_random_RGB(),getRandomInt(5,15)));
     }
 
 }
